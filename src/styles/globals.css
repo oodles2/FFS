@@ -25,3 +25,18 @@ body {
     text-wrap: balance;
   }
 }
+
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary {
+  list-style: none; /* Ensures no marker is shown */
+  cursor: pointer; /* Optional: shows pointer cursor */
+}
+
+td {
+  color: black
+}
+
