@@ -88,13 +88,13 @@ const DraftResultsPage = () => {
 
   return (
     <Layout>
-      <div className="p-8 bg-white"> {/* Background set to white */}
+      <div className="p-8 bg-gray-200"> {/* Background set to white */}
         <h1 className="text-3xl font-bold mb-4 text-gray-900">Draft Results</h1>
 
         {/* Draft Year Selector */}
         <div className="flex justify-center mb-6">
           <select 
-            className="px-4 py-2 rounded bg-gray-300 text-black"
+            className="px-6 py-2 rounded bg-gray-100 text-black"
             value={selectedDraftId || ''} 
             onChange={(e) => handleDraftChange(e.target.value)}
           >
@@ -109,7 +109,7 @@ const DraftResultsPage = () => {
         {/* Draft Results Table */}
         <table className="min-w-full table-auto border-collapse border border-gray-300">
           <thead>
-            <tr className="bg-gray-200 text-gray-900"> {/* Header with gray background */}
+            <tr className="bg-gray-400 text-gray-900"> {/* Header with gray background */}
               <th className="border border-gray-300 px-4 py-2">Round</th>
               {Array.from({ length: 10 }).map((_, i) => (
                 <th key={i + 1} className="border border-gray-300 px-4 py-2">Slot {i + 1}</th>

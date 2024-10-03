@@ -20,6 +20,19 @@ const RostersPage = () => {
   // Define the position order
   const positionOrder = ['QB', 'RB', 'WR', 'TE', 'K', 'DEF'];
 
+  // Define the position color
+  const getPlayerPositionColor = (position) => {
+    switch (position) {
+      case 'QB': return '#ff2a6d';
+      case 'RB': return '#00ceb8';
+      case 'WR': return '#58a7ff';
+      case 'TE': return '#ffae58';
+      case 'K': return '#bd66ff';
+      case 'DEF': return '#7988a1';
+      default: return '#ffffff';
+    }
+  };
+
   // Sort players according to the custom order
   const sortedPlayers = selectedTeam?.players?.sort((a, b) => {
     const posA = positionOrder.indexOf(a.fantasyPosition);
@@ -68,28 +81,33 @@ const RostersPage = () => {
               <table className="min-w-full bg-white">
                 <thead>
                   <tr>
-                    <th className="py-2 px-4 bg-gray-400 font-semibold text-black">Positions</th>
-                    <th className="py-2 px-4 bg-gray-400 font-semibold text-black">Player</th>
-                    <th className="py-2 px-4 bg-gray-400 font-semibold text-black">Team</th>
+                    <th className="py-2 px-4 border bg-gray-400 font-semibold text-black">Positions</th>
+                    <th className="py-2 px-4 border bg-gray-400 font-semibold text-black">Player</th>
+                    <th className="py-2 px-4 border bg-gray-400 font-semibold text-black">Team</th>
                     
                   </tr>
                 </thead>
-                <tbody>
-                  {sortedPlayers?.length > 0 ? (
-                    sortedPlayers.map((player, index) => (
-                      <tr key={index} className="text-center">
-                        <td className="py-2 px-4 border text-gray-800 font-medium">{player.fantasyPosition || 'N/A'}</td>
-                        <td className="py-2 px-4 border text-gray-800 font-medium">{player.name}</td>
-                        <td className="py-2 px-4 border text-gray-800 font-medium">{player.team}</td>
-                        
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td className="py-2 px-4 border" colSpan="3">No players on this roster</td>
-                    </tr>
-                  )}
+                    <tbody>
+                        {sortedPlayers?.length > 0 ? (
+                            sortedPlayers.map((player, index) => (
+                            <tr key={index} className="text-center">
+                                <td
+                                className="py-2 px-4 border text-gray-800 font-medium"
+                                style={{ backgroundColor: getPlayerPositionColor(player.fantasyPosition) }} // Apply position-specific color
+                                >
+                                {player.fantasyPosition || 'N/A'}
+                                </td>
+                                <td className="py-2 px-4 border text-gray-800 font-medium">{player.name}</td>
+                                <td className="py-2 px-4 border text-gray-800 font-medium">{player.team}</td>
+                            </tr>
+                            ))
+                        ) : (
+                            <tr>
+                            <td className="py-2 px-4 border" colSpan="3">No players on this roster</td>
+                            </tr>
+                     )}
                 </tbody>
+
               </table>
             </div>
           ) : (

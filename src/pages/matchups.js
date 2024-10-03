@@ -38,7 +38,7 @@ const MatchupsPage = () => {
         return {
           teamId: roster.roster_id,
           teamName: user?.display_name || 'Unknown Team',
-          avatar: user?.avatar // Adding avatar for the player
+          avatar: user?.avatar
         };
       });
       setTeams(teamsWithNames);
@@ -122,7 +122,6 @@ const MatchupsPage = () => {
       <div className="p-8">
         <h1 className="text-3xl font-bold mb-4">MatchUps - Week {selectedWeek}</h1>
 
-        {/* Dynamic Week Buttons */}
         <div className="flex space-x-4 mb-6 justify-center">
           {Array.from({ length: maxWeek }, (_, i) => i + 1).map((week) => (
             <button
@@ -139,11 +138,12 @@ const MatchupsPage = () => {
         <div>
           {matchups.length > 0 ? (
             matchups.map((matchup, index) => (
-              <div key={index} className="mb-4 p-4 bg-white shadow rounded mx-auto max-w-4xl">
-                <h3 className="text-lg font-bold bg-black text-white p-2 text-center">Matchup {index + 1}</h3>
+              <details key={index} className="mb-4 p-4 bg-white shadow rounded mx-auto max-w-4xl">
+                <summary className="text- font-bold bg-black text-white p-2 text-center cursor-pointer">
+                  {getTeamName(matchup.team1)} {matchup.team1Score} - {matchup.team2Score} {getTeamName(matchup.team2)}
+                </summary>
 
                 <div className="flex justify-between items-center mt-4">
-                  {/* Team 1 */}
                   <div className="w-1/3 text-left">
                     <h4 className="font-bold">{getTeamName(matchup.team1)}</h4>
                     <table className="min-w-full table-auto border-collapse border border-gray-200">
@@ -178,12 +178,10 @@ const MatchupsPage = () => {
                     </table>
                   </div>
 
-                  {/* Centered Score */}
                   <div className="text-center w-1/3 font-bold text-2xl" style={{ fontSize: '120%' }}>
                     {matchup.team1Score} | {matchup.team2Score}
                   </div>
 
-                  {/* Team 2 */}
                   <div className="w-1/3 text-right">
                     <h4 className="font-bold">{getTeamName(matchup.team2)}</h4>
                     <table className="min-w-full table-auto border-collapse border border-gray-200">
@@ -218,10 +216,10 @@ const MatchupsPage = () => {
                     </table>
                   </div>
                 </div>
-              </div>
+              </details>
             ))
           ) : (
-            <p>No matchups available for this week.</p>
+            <p>No matchups available for this week</p>
           )}
         </div>
       </div>
