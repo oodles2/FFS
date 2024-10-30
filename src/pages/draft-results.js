@@ -10,7 +10,7 @@ const DraftResultsPage = () => {
   const [players, setPlayers] = useState({});
   const [rounds, setRounds] = useState([]);
 
-  const leagueId = '1073826869285421056'; // Your Sleeper league ID
+  const leagueId = '1073826869285421056';
 
   useEffect(() => {
     fetchAvailableDrafts();
@@ -88,13 +88,13 @@ const DraftResultsPage = () => {
 
   return (
     <Layout>
-      <div className="p-8 bg-gray-200"> {/* Background set to white */}
-        <h1 className="text-3xl font-bold mb-4 text-gray-900">Draft Results</h1>
+      <div className="p-4 bg-gray-200">
+        <h1 className="text-2xl font-bold mb-4 text-gray-900">Draft Results</h1>
 
         {/* Draft Year Selector */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-4">
           <select 
-            className="px-6 py-2 rounded bg-gray-100 text-black"
+            className="px-6 py-2 rounded bg-gray-100 text-black w-full sm:w-auto"
             value={selectedDraftId || ''} 
             onChange={(e) => handleDraftChange(e.target.value)}
           >
@@ -107,29 +107,33 @@ const DraftResultsPage = () => {
         </div>
 
         {/* Draft Results Table */}
-        <table className="min-w-full table-auto border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-400 text-gray-900"> {/* Header with gray background */}
-              <th className="border border-gray-300 px-4 py-2">Round</th>
-              {Array.from({ length: 10 }).map((_, i) => (
-                <th key={i + 1} className="border border-gray-300 px-4 py-2">Slot {i + 1}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rounds.map(round => (
-              <tr key={round} className="bg-white text-gray-900"> {/* White background for rows */}
-                <td className="border border-gray-300 px-4 py-2">Round {round}</td>
-                {Array.from({ length: 10 }).map((_, slot) => (
-                  <td key={slot + 1} className="border border-gray-300 px-4 py-2">
-                    <div className="font-bold text-black">{getDraftedPlayer(round, slot + 1)}</div> {/* Player name */}
-                    <div className="text-xs text-gray-500">{getPickedByUser(round, slot + 1)}</div> {/* User name */}
-                  </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-400 text-gray-900">
+                <th className="border border-gray-300 px-2 py-1 text-xs sm:text-sm">Round</th>
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <th key={i + 1} className="border border-gray-300 px-2 py-1 text-xs sm:text-sm">
+                    Slot {i + 1}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rounds.map(round => (
+                <tr key={round} className="bg-white text-gray-900">
+                  <td className="border border-gray-300 px-2 py-1 text-xs sm:text-sm">Round {round}</td>
+                  {Array.from({ length: 10 }).map((_, slot) => (
+                    <td key={slot + 1} className="border border-gray-300 px-2 py-1">
+                      <div className="font-bold text-black text-xs sm:text-sm">{getDraftedPlayer(round, slot + 1)}</div>
+                      <div className="text-gray-500 text-xs sm:text-sm">{getPickedByUser(round, slot + 1)}</div>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </Layout>
   );
