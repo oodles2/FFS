@@ -10,7 +10,7 @@ const DraftResultsPage = () => {
   const [players, setPlayers] = useState({});
   const [rounds, setRounds] = useState([]);
 
-  const leagueId = '1073826869285421056';
+  const leagueId = '1073826869285421056'; // Your Sleeper league ID
 
   useEffect(() => {
     fetchAvailableDrafts();
