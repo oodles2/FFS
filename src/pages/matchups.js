@@ -9,7 +9,7 @@ const MatchupsPage = () => {
   const [teams, setTeams] = useState([]);
   const [players, setPlayers] = useState({});
 
-  const leagueId = '1073826869285421056'; // Your actual Sleeper league ID
+  const leagueId = '1073826869285421056';
 
   useEffect(() => {
     fetchMaxWeek();
@@ -119,101 +119,88 @@ const MatchupsPage = () => {
 
   return (
     <Layout>
-      <div className="p-8">
-        <h1 className="text-3xl font-bold mb-4">MatchUps - Week {selectedWeek}</h1>
+      <div className="p-4 md:p-8">
+        <h1 className="text-2xl md:text-3xl font-bold mb-4">MatchUps - Week {selectedWeek}</h1>
 
-        <div className="flex space-x-4 mb-6 justify-center">
+        {/* Week Selector - Centered on Mobile */}
+        <div className="flex flex-wrap justify-center space-x-2 mb-6">
           {Array.from({ length: maxWeek }, (_, i) => i + 1).map((week) => (
             <button
               key={week}
               onClick={() => handleWeekChange(week)}
-              className={`px-4 py-2 ${week === selectedWeek ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-700'} rounded`}
+              className={`px-3 py-1 m-1 ${week === selectedWeek ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-700'} rounded`}
             >
               Week {week}
             </button>
           ))}
         </div>
 
-        {/* List of Matchups */}
-        <div>
+        {/* Matchups List */}
+        <div className="space-y-4">
           {matchups.length > 0 ? (
             matchups.map((matchup, index) => (
-              <details key={index} className="mb-4 p-4 bg-white shadow rounded mx-auto max-w-4xl">
-                <summary className="text- font-bold bg-black text-white p-2 text-center cursor-pointer">
+              <details key={index} className="bg-gray-100 shadow rounded-lg mx-auto p-4 max-w-full md:max-w-3xl">
+                <summary className="text-md md:text-lg font-bold bg-black text-white p-2 text-center cursor-pointer">
                   {getTeamName(matchup.team1)} {matchup.team1Score} - {matchup.team2Score} {getTeamName(matchup.team2)}
                 </summary>
 
-                <div className="flex justify-between items-center mt-4">
-                  <div className="w-1/3 text-left">
-                    <h4 className="font-bold">{getTeamName(matchup.team1)}</h4>
-                    <table className="min-w-full table-auto border-collapse border border-gray-200">
-                      <thead>
-                        <tr>
-                          <th className="border border-gray-200 px-2 py-1">Pos</th>
-                          <th className="border border-gray-200 px-2 py-1">Name</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {matchup.team1Starters.map((playerId) => (
-                          <tr key={playerId}>
-                            <td
-                              className="border border-gray-200 px-2 py-1 text-black"
-                              style={{ backgroundColor: getPlayerPositionColor(players[playerId]?.position) }}
-                            >
-                              {players[playerId]?.position || 'N/A'}
-                            </td>
-                            <td className="border border-gray-200 px-2 py-1">
-                              {players[playerId]?.avatar && (
-                                <img
-                                  src={`https://sleepercdn.com/avatars/thumbs/${players[playerId].avatar}`}
-                                  alt="Avatar"
-                                  className="inline-block w-6 h-6 rounded-full mr-2"
-                                />
-                              )}
-                              {getPlayerName(playerId)}
-                            </td>
+                <div className="flex flex-col md:flex-row justify-between mt-4">
+                  <div className="w-full md:w-1/2 text-left mb-4 md:mb-0">
+                    <h4 className="font-bold text-black mb-2">{getTeamName(matchup.team1)}</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full table-auto border-collapse border border-gray-200">
+                        <thead>
+                          <tr>
+                            <th className="border border-gray-200 px-2 py-1">Pos</th>
+                            <th className="border border-gray-200 px-2 py-1">Name</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {matchup.team1Starters.map((playerId) => (
+                            <tr key={playerId}>
+                              <td
+                                className="border border-gray-200 px-2 py-1 text-black"
+                                style={{ backgroundColor: getPlayerPositionColor(players[playerId]?.position) }}
+                              >
+                                {players[playerId]?.position || 'N/A'}
+                              </td>
+                              <td className="border border-gray-200 px-2 py-1">
+                                {getPlayerName(playerId)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
 
-                  <div className="text-center w-1/3 font-bold text-2xl" style={{ fontSize: '120%' }}>
-                    {matchup.team1Score} | {matchup.team2Score}
-                  </div>
-
-                  <div className="w-1/3 text-right">
-                    <h4 className="font-bold">{getTeamName(matchup.team2)}</h4>
-                    <table className="min-w-full table-auto border-collapse border border-gray-200">
-                      <thead>
-                        <tr>
-                          <th className="border border-gray-200 px-2 py-1">Name</th>
-                          <th className="border border-gray-200 px-2 py-1">Pos</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {matchup.team2Starters.map((playerId) => (
-                          <tr key={playerId}>
-                            <td className="border border-gray-200 px-2 py-1">
-                              {players[playerId]?.avatar && (
-                                <img
-                                  src={`https://sleepercdn.com/avatars/thumbs/${players[playerId].avatar}`}
-                                  alt="Avatar"
-                                  className="inline-block w-6 h-6 rounded-full mr-2"
-                                />
-                              )}
-                              {getPlayerName(playerId)}
-                            </td>
-                            <td
-                              className="border border-gray-200 px-2 py-1 text-black"
-                              style={{ backgroundColor: getPlayerPositionColor(players[playerId]?.position) }}
-                            >
-                              {players[playerId]?.position || 'N/A'}
-                            </td>
+                  <div className="w-full md:w-1/2 text-left">
+                    <h4 className="font-bold text-black mb-2">{getTeamName(matchup.team2)}</h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full table-auto border-collapse border border-gray-200">
+                        <thead>
+                          <tr>
+                            <th className="border border-gray-200 px-2 py-1">Name</th>
+                            <th className="border border-gray-200 px-2 py-1">Pos</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {matchup.team2Starters.map((playerId) => (
+                            <tr key={playerId}>
+                              <td className="border border-gray-200 px-2 py-1">
+                                {getPlayerName(playerId)}
+                              </td>
+                              <td
+                                className="border border-gray-200 px-2 py-1 text-black"
+                                style={{ backgroundColor: getPlayerPositionColor(players[playerId]?.position) }}
+                              >
+                                {players[playerId]?.position || 'N/A'}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </details>
